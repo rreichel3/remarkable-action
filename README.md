@@ -1,5 +1,9 @@
 # Remarkable Actions
-Generate a CI/CD remarkable slideshow from a single markdown and GitHub actions
+Generate a CI/CD [remark](https://github.com/gnab/remark) slideshow from a single markdown and GitHub actions.
+
+[Example Slideshow](https://rreichel3.github.io/Remark-Pages-Example) 
+
+[Example Repo](https://github.com/rreichel3/Remark-Pages-Example)
 
 
 ## Setup
