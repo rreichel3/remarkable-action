@@ -54,5 +54,5 @@ runs:
         git -C ./pages config user.email github-actions@github.com
         git -C ./pages add ./index.html presentation.md
         git -C ./pages commit -m 'Auto commit from Remarkable GitHub Action build'
-        git -C ./pages push
+        git -C ./pages push || echo "No new changes to push!"
       shell: bash
