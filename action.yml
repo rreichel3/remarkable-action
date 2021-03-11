@@ -40,8 +40,8 @@ runs:
     - id: copy-html
       run: |
         echo "Copying HTML"
-        if [ ${{inputs.static-html-path}} == "DEFAULT_HTML_PATH" ]; then
-          cp ${{ github.action_path }}/boilerplate.html ./pages/index.html"
+        if [ "${{inputs.static-html-path}}" == "DEFAULT_HTML_PATH" ]; then
+          cp ${{ github.action_path }}/boilerplate.html ./pages/index.html
         else
           cd base
           cp ${{inputs.static-html-path}} ../pages/index.html
