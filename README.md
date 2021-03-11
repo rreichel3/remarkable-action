@@ -53,7 +53,6 @@ jobs:
       #with:
         #pages-branch: pages (Default)
         #markdown-path: ./presentation.md (Default)
-        #static-html-path: ./boilerplate.html (Default, defined in the Actions repo and doesn't need to exist in your repo)
 ```
 
 ### Browse to your page!

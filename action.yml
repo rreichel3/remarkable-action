@@ -9,10 +9,6 @@ inputs:
     description: "Optional relative path to your presentation markdown file. Defaults to presentation.md in your repo"
     default: "presentation.md"
     required: false
-  static-html-path:
-    description: "Optional relative path to a custom HTML file to serve the presentation. Defaults to the default HTML example from Remark"
-    default: "${{ github.action_path }}/boilerplate.html"
-    required: false
   repo-token:
     description: Access token that can pull and push to the given repository
     required: true
@@ -31,7 +27,7 @@ runs:
       run: "git clone --single-branch --branch ${{inputs.pages-branch}} https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git pages || git clone https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git pages && git -C ./pages checkout -b ${{inputs.pages-branch}} && git -C ./pages push --set-upstream origin ${{inputs.pages-branch}}"
       shell: bash
     - id: cd-to-base
-      run: "cd base && ls"
+      run: "rm -rf "
       shell: bash
     - id: copy-markdown
       run: "cp base/${{inputs.markdown-path}} ./pages/presentation.md"
