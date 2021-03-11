@@ -1,5 +1,8 @@
 name: "Remarkable Actions"
 description: "Automatically serve your Remark presentation with GitHub Pages"
+branding:
+  icon: 'star'
+  color: 'yellow'
 inputs:
   pages-branch:
     description: "Branch you're serving pages from"
