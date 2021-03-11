@@ -17,6 +17,7 @@ inputs:
     description: Access token that can pull and push to the given repository
     required: true
 runs:
+  continue-on-error: true
   using: "composite"
   steps:
     - id: create-base-directories
@@ -54,5 +55,5 @@ runs:
         git -C ./pages config user.email github-actions@github.com
         git -C ./pages add ./index.html presentation.md
         git -C ./pages commit -m 'Auto commit from Remarkable GitHub Action build'
-        git -C ./pages push || echo "No new changes to push!"
+        git -C ./pages push
       shell: bash
