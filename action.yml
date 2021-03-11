@@ -1,0 +1,49 @@
+name: "Remarkable Actions"
+description: "Automatically serve your Remark presentation with GitHub Pages"
+inputs:
+  pages-branch:
+    description: "Branch you're serving pages from"
+    default: "pages"
+    required: false
+  markdown-path:  # id of input
+    description: "Optional relative path to your presentation markdown file. Defaults to presentation.md in your repo"
+    default: "presentation.md"
+    required: false
+  static-html-path:
+    description: "Optional relative path to a custom HTML file to serve the presentation. Defaults to the default HTML example from Remark"
+    default: "${{ github.action_path }}/boilerplate.html"
+    required: false
+  repo-token:
+    description: Access token that can pull and push to the given repository
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - id: create-base-directories
+      run: "mkdir /tmp/clone && cd /tmp/clone && echo ${{inputs.repo-token}}"
+      shell: bash
+      # Perhaps there is a better way to do this rather than cloning twice
+      # But this is pretty straightforward so will keep for now.
+    - id: clone-base-repo
+      run: "git clone https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git base"
+      shell: bash
+    - id: clone-base-repo-for-pages
+      run: "git clone --single-branch --branch ${{inputs.pages-branch}} https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git pages || git clone https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git pages && git -C ./pages checkout -b ${{inputs.pages-branch}} && git -C ./pages push --set-upstream origin ${{inputs.pages-branch}}"
+      shell: bash
+    - id: cd-to-base
+      run: "cd base && ls"
+      shell: bash
+    - id: copy-markdown
+      run: "cp base/${{inputs.markdown-path}} ./pages/presentation.md"
+      shell: bash
+    - id: copy-html
+      run: "cp ${{ github.action_path }}/boilerplate.html ./pages/index.html"
+      shell: bash
+    - id: commit-and-push
+      run: |
+        git -C ./pages config user.name github-actions
+        git -C ./pages config user.email github-actions@github.com
+        git -C ./pages add ./index.html presentation.md
+        git -C ./pages commit -m 'Auto commit from Remarkable GitHub Action build'
+        git -C ./pages push
+      shell: bash
