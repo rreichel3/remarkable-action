@@ -28,13 +28,18 @@ runs:
       run: "git clone https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git base"
       shell: bash
     - id: clone-base-repo-for-pages
-      run: "echo 'git clone --single-branch --branch ${{inputs.pages-branch}} https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git pages || { git clone https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git pages && git -C ./pages checkout -b ${{inputs.pages-branch}} && git -C ./pages push --set-upstream origin ${{inputs.pages-branch}}; }'"
+      run: |
+        echo "Cloning pages copy"
+        git clone --single-branch --branch ${{inputs.pages-branch}} https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git pages || { git clone https://x-access-token:${{inputs.repo-token}}@github.com/${{github.repository}}.git pages && git -C ./pages checkout -b ${{inputs.pages-branch}} && git -C ./pages push --set-upstream origin ${{inputs.pages-branch}}; }
       shell: bash
     - id: copy-markdown
-      run: "cp base/${{inputs.markdown-path}} ./pages/presentation.md"
+      run: |
+        echo "Copying Markdown"
+        cp base/${{inputs.markdown-path}} ./pages/presentation.md
       shell: bash
     - id: copy-html
       run: |
+        echo "Copying HTML"
         if [ ${{inputs.static-html-path}} == "DEFAULT_HTML_PATH" ]; then
           cp ${{ github.action_path }}/boilerplate.html ./pages/index.html"
         else
@@ -44,6 +49,7 @@ runs:
       shell: bash
     - id: commit-and-push
       run: |
+        echo "Committing"
         git -C ./pages config user.name github-actions
         git -C ./pages config user.email github-actions@github.com
         git -C ./pages add ./index.html presentation.md
