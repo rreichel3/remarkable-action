@@ -18,7 +18,7 @@ inputs:
     required: false
   repo-token:
     description: Access token that can pull and push to the given repository
-    required: true
+    default: ${{ github.token }}
 runs:
   using: "composite"
   steps:
